@@ -1,0 +1,27 @@
+{
+	"nodes":[
+		{"type":"group","id":"6d70d3f8ec05d566","x":480,"y":-315,"width":394,"height":751,"color":"5","label":"Backend"},
+		{"type":"group","id":"46f5f6cecead34f0","x":-200,"y":-207,"width":507,"height":233,"color":"4","label":"UI"},
+		{"type":"group","id":"66690cfff2a9b720","x":960,"y":61,"width":442,"height":194,"color":"6","label":"DB"},
+		{"type":"text","text":"Login","id":"322c5b28034a681a","x":-180,"y":-54,"width":120,"height":60},
+		{"type":"text","text":"Service API Call","id":"c1bc4eb99bb78da0","x":153,"y":-54,"width":134,"height":60},
+		{"type":"text","text":"Register","id":"ddf2aa9b24838f5f","x":-180,"y":-187,"width":120,"height":60},
+		{"type":"text","text":"Email Validation","id":"aa28d05be69548cf","x":-16,"y":-187,"width":169,"height":60},
+		{"type":"text","text":"Username","id":"1a9e3bc7e5aff988","x":-16,"y":-54,"width":126,"height":60},
+		{"type":"text","text":"# User\n- Require Auth\n- Require Email validation upon register","id":"2484644b16cee91c","x":-520,"y":-127,"width":223,"height":206,"color":"4"},
+		{"type":"text","text":"# Service API","id":"0f4a74e45ac36519","x":500,"y":-295,"width":354,"height":118},
+		{"type":"text","text":"# Free Tier Check\nThis is to ensure free tier users can only use the services N times in 24 hours\n1. Grab request timestamps (RT) based on Username\n2. Check head of RT\n3. Clean up RT\n``` \n# Clean up RT\nhead = RT\nwhile(head.timestamp >= 24h ago) {\n\tprev = head\n\thead = head.next\n\tprev = null\n}\n```\n4. If `RT.length < N`, current request allowed, push request timestamp","id":"0b45beb3cf7e86ca","x":500,"y":-90,"width":354,"height":506},
+		{"type":"text","text":"# Session Table\n| Username | LinkedList of request timestamps |\n| -------- | -------------------------------- |\n| user1 | [1677693448, 1678039048] |\n","id":"90c7bccc7f7ce169","x":980,"y":75,"width":402,"height":160},
+		{"type":"text","text":"# Free Tier Limitation Service\nFree tier users are limited to use the service N times per day\n(Medium business model)","id":"01506fd0ff9e01f4","x":77,"y":-580,"width":600,"height":160}
+	],
+	"edges":[
+		{"id":"0f96b792ede41c1f","fromNode":"2484644b16cee91c","fromSide":"right","toNode":"322c5b28034a681a","toSide":"left","label":"2"},
+		{"id":"41579c3b334c6208","fromNode":"322c5b28034a681a","fromSide":"right","toNode":"1a9e3bc7e5aff988","toSide":"left"},
+		{"id":"798f528ca321e0bf","fromNode":"2484644b16cee91c","fromSide":"right","toNode":"ddf2aa9b24838f5f","toSide":"left","label":"1"},
+		{"id":"4efa07e64dbe7f0a","fromNode":"ddf2aa9b24838f5f","fromSide":"right","toNode":"aa28d05be69548cf","toSide":"left"},
+		{"id":"f94089fb16cd4f41","fromNode":"1a9e3bc7e5aff988","fromSide":"right","toNode":"c1bc4eb99bb78da0","toSide":"left"},
+		{"id":"05687fd727fc3b83","fromNode":"0b45beb3cf7e86ca","fromSide":"right","toNode":"90c7bccc7f7ce169","toSide":"left"},
+		{"id":"038b01cf3bb5c294","fromNode":"c1bc4eb99bb78da0","fromSide":"right","toNode":"0f4a74e45ac36519","toSide":"left","label":"3"},
+		{"id":"ff7b5cbbdeb23561","fromNode":"0f4a74e45ac36519","fromSide":"bottom","toNode":"0b45beb3cf7e86ca","toSide":"top","label":"4"}
+	]
+}

@@ -1,0 +1,38 @@
+{
+	"nodes":[
+		{"type":"group","id":"00c0150ad339e86d","x":430,"y":105,"width":1239,"height":827,"label":"Decoupled"},
+		{"type":"group","id":"9bd963b9452fafdc","x":-418,"y":105,"width":797,"height":827,"label":"Coupled"},
+		{"type":"text","text":"Request 1\nRequest 2\n...\nRequest N (N = 10)\n","id":"4007a9a1f12ea0ac","x":-396,"y":175,"width":185,"height":132},
+		{"type":"text","text":"Email Service (SMTP Provider)","id":"a4be5d812ae5734e","x":197,"y":175,"width":162,"height":107},
+		{"type":"text","text":"API\n\n1. Generate code\n2. Async events:\n\t- Send email with code\n\t- Store code in the DB","id":"d2e869b2fa3563af","x":-116,"y":125,"width":196,"height":242},
+		{"type":"text","text":"DB","id":"a4255f62dc66a998","x":197,"y":307,"width":74,"height":60},
+		{"type":"text","text":"1 hour\n___ \n3,600 seconds\n\nClients create\n- 36,000 emails\n\nService processes\n- 100% CPU Utilization: \n\t- 16 threads working per second\n\t- 57,600 emails processed\n- 50% CPU Utilization:\n\t- 8 threads working per second\n\t- 28,800 emails processed\n\nat 50% CPU Utilization, we hit a bottleneck","id":"d2c4b5c24c05e910","x":-398,"y":443,"width":340,"height":469,"color":"1"},
+		{"type":"text","text":"Assumptions\n___\n- API takes 0.1 seconds to generate code and send event to topic\n- Email generation service takes 0.4 seconds per email","id":"62b375f6341db8a9","x":510,"y":415,"width":250,"height":343,"color":"6"},
+		{"type":"text","text":"1 hour\n___ \n3,600 seconds\n\nClients create\n- 36,000 emails\n\nService processes\n- 100% CPU Utilization: \n\t- 80 threads working per second\n\t- 288,000 events sent\n- 50% CPU Utilization:\n\t- 40 threads working per second\n\t- 144,000 events sent\n\nat 50% CPU Utilization, we can handle a lot more than our demands","id":"cd112ea7c09ba829","x":803,"y":415,"width":340,"height":497,"color":"4"},
+		{"type":"text","text":"Request 1\nRequest 2\n...\nRequest N (N = 10)\n","id":"2ebf082b16e61c97","x":450,"y":175,"width":185,"height":132},
+		{"type":"text","text":"API\n\n1. Generate code\n2. Send event to topic","id":"f1400ad393b56242","x":720,"y":125,"width":193,"height":232},
+		{"type":"text","text":"Topic","id":"bd305aeb9b65babf","x":973,"y":216,"width":77,"height":50},
+		{"type":"text","text":"DB","id":"71d4b803d720e214","x":1159,"y":297,"width":85,"height":60},
+		{"type":"text","text":"Archive","id":"df6d95106eb26085","x":1326,"y":415,"width":119,"height":60},
+		{"type":"text","text":"Error Queue","id":"679f5a0316103a23","x":1530,"y":415,"width":119,"height":60},
+		{"type":"text","text":"Email Service (SMTP Provider)","id":"e831660369a98ad7","x":1487,"y":127,"width":162,"height":96},
+		{"type":"text","text":"Assumptions:\n- 10 TPS\n- CPU Cores: 4\n- Threads per core: 2\n- 8 total threads processings\n- Entire email generation takes 0.5 seconds","id":"e1bbf1785c8ce30a","x":271,"y":-300,"width":543,"height":287,"color":"6"},
+		{"type":"text","text":"Queue","id":"23ebc7e92ac3a4c1","x":1151,"y":145,"width":101,"height":60},
+		{"type":"text","text":"Email generation","id":"ce49fcc5138772c1","x":1307,"y":145,"width":157,"height":60}
+	],
+	"edges":[
+		{"id":"a1480b45787d9b23","fromNode":"4007a9a1f12ea0ac","fromSide":"right","toNode":"d2e869b2fa3563af","toSide":"left","label":"1"},
+		{"id":"1cc601a7ef72b93d","fromNode":"d2e869b2fa3563af","fromSide":"right","toNode":"a4be5d812ae5734e","toSide":"left","label":"2"},
+		{"id":"600a7c2ed307daff","fromNode":"d2e869b2fa3563af","fromSide":"right","toNode":"a4255f62dc66a998","toSide":"left","label":"2"},
+		{"id":"b149f54db8edd697","fromNode":"d2c4b5c24c05e910","fromSide":"top","toNode":"d2e869b2fa3563af","toSide":"bottom"},
+		{"id":"7cfb24ef3940083f","fromNode":"2ebf082b16e61c97","fromSide":"right","toNode":"f1400ad393b56242","toSide":"left","label":"1"},
+		{"id":"2dce6f08f2ba6cbc","fromNode":"ce49fcc5138772c1","fromSide":"right","toNode":"e831660369a98ad7","toSide":"left"},
+		{"id":"2b9464bc81d9574e","fromNode":"bd305aeb9b65babf","fromSide":"right","toNode":"71d4b803d720e214","toSide":"left","label":"3"},
+		{"id":"3048c6e7abbe2212","fromNode":"f1400ad393b56242","fromSide":"right","toNode":"bd305aeb9b65babf","toSide":"left","label":"2"},
+		{"id":"79c95104f705fac7","fromNode":"23ebc7e92ac3a4c1","fromSide":"right","toNode":"ce49fcc5138772c1","toSide":"left","label":"4"},
+		{"id":"29ee8f621868dabf","fromNode":"bd305aeb9b65babf","fromSide":"right","toNode":"23ebc7e92ac3a4c1","toSide":"left","label":"3"},
+		{"id":"e969529731e396c5","fromNode":"e831660369a98ad7","fromSide":"top","toNode":"ce49fcc5138772c1","toSide":"top","label":"5"},
+		{"id":"871af19bffaf25f5","fromNode":"ce49fcc5138772c1","fromSide":"bottom","toNode":"df6d95106eb26085","toSide":"top","label":"6. success"},
+		{"id":"dddf7dd4bfcafef3","fromNode":"ce49fcc5138772c1","fromSide":"bottom","toNode":"679f5a0316103a23","toSide":"top","label":"7. error"}
+	]
+}
